@@ -17,62 +17,72 @@ const common_1 = require("@nestjs/common");
 const brands_service_1 = require("./brands.service");
 const create_brand_dto_1 = require("./dto/create-brand.dto");
 const update_brand_dto_1 = require("./dto/update-brand.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const user_entity_1 = require("../users/entities/user.entity");
 let BrandsController = class BrandsController {
     brandsService;
     constructor(brandsService) {
         this.brandsService = brandsService;
     }
-    create(createBrandDto) {
+    async create(createBrandDto) {
         return this.brandsService.create(createBrandDto);
     }
-    findAll() {
-        return this.brandsService.findAll();
+    async findAll() {
+        return this.brandsService.findALl();
     }
-    findOne(id) {
-        return this.brandsService.findOne(+id);
+    async findOne(id) {
+        return this.brandsService.findOne(id);
     }
-    update(id, updateBrandDto) {
-        return this.brandsService.update(+id, updateBrandDto);
+    async update(id, updateBrandDto) {
+        return this.brandsService.update(id, updateBrandDto);
     }
-    remove(id) {
-        return this.brandsService.remove(+id);
+    async remove(id) {
+        return this.brandsService.remove(id);
     }
 };
 exports.BrandsController = BrandsController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_brand_dto_1.CreateBrandDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BrandsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BrandsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BrandsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_brand_dto_1.UpdateBrandDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BrandsController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BrandsController.prototype, "remove", null);
 exports.BrandsController = BrandsController = __decorate([
     (0, common_1.Controller)('brands'),
