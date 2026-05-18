@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BrandsModule } from './brands/brands.module';
 import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
 
 
 @Module({
@@ -44,6 +45,8 @@ import { ProductsModule } from './products/products.module';
     BrandsModule,
 
     ProductsModule,
+
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
