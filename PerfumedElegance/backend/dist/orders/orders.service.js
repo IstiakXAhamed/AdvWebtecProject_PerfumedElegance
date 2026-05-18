@@ -5,28 +5,57 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdersService = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const order_entity_1 = require("./entities/order.entity");
 let OrdersService = class OrdersService {
-    create(createOrderDto) {
-        return 'This action adds a new order';
+    ordersRepository;
+    constructor(ordersRepository) {
+        this.ordersRepository = ordersRepository;
     }
-    findAll() {
-        return `This action returns all orders`;
+    async create(createOrderDto, userId) {
+        const newOrder = this.ordersRepository.create({
+            ...createOrderDto,
+            user: userId ? { id: userId } : null,
+        });
+        return this.ordersRepository.save(newOrder);
     }
-    findOne(id) {
-        return `This action returns a #${id} order`;
+    async findAll() {
+        return this.ordersRepository.find({
+            order: { createdAt: 'DESC' },
+        });
     }
-    update(id, updateOrderDto) {
-        return `This action updates a #${id} order`;
+    async findOne(id) {
+        const order = await this.ordersRepository.findOneBy({ id });
+        if (!order) {
+            throw new common_1.NotFoundException(`Order with ID "${id}" not found`);
+        }
+        return order;
     }
-    remove(id) {
-        return `This action removes a #${id} order`;
+    async update(id, updateOrderDto) {
+        const order = await this.findOne(id);
+        const updatedOrder = this.ordersRepository.merge(order, updateOrderDto);
+        return this.ordersRepository.save(updatedOrder);
+    }
+    async remove(id) {
+        await this.findOne(id);
+        await this.ordersRepository.delete(id);
+        return { message: 'Order deleted successfully' };
     }
 };
 exports.OrdersService = OrdersService;
 exports.OrdersService = OrdersService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __param(0, (0, typeorm_1.InjectRepository)(order_entity_1.Order)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], OrdersService);
 //# sourceMappingURL=orders.service.js.map

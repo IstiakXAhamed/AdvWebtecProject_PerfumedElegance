@@ -17,25 +17,29 @@ const common_1 = require("@nestjs/common");
 const orders_service_1 = require("./orders.service");
 const create_order_dto_1 = require("./dto/create-order.dto");
 const update_order_dto_1 = require("./dto/update-order.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const user_entity_1 = require("../users/entities/user.entity");
 let OrdersController = class OrdersController {
     ordersService;
     constructor(ordersService) {
         this.ordersService = ordersService;
     }
-    create(createOrderDto) {
+    async create(createOrderDto) {
         return this.ordersService.create(createOrderDto);
     }
-    findAll() {
+    async findAll() {
         return this.ordersService.findAll();
     }
-    findOne(id) {
-        return this.ordersService.findOne(+id);
+    async findOne(id) {
+        return this.ordersService.findOne(id);
     }
-    update(id, updateOrderDto) {
-        return this.ordersService.update(+id, updateOrderDto);
+    async update(id, updateOrderDto) {
+        return this.ordersService.update(id, updateOrderDto);
     }
-    remove(id) {
-        return this.ordersService.remove(+id);
+    async remove(id) {
+        return this.ordersService.remove(id);
     }
 };
 exports.OrdersController = OrdersController;
@@ -44,35 +48,43 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_order_dto_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_order_dto_1.UpdateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(user_entity_1.Role.ADMIN),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "remove", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, common_1.Controller)('orders'),
