@@ -1,5 +1,6 @@
 import ProductCard from '@/components/ProductCard';
-import api from '@/lib/axios'; 
+import api from '@/lib/axios';
+import { HeroSlideshow } from '@/components/HeroSlideshow';
 
 
 // 1. Define the Product structure matching our backend entity
@@ -34,28 +35,8 @@ export default async function HomePage() {
 
   return (
     <div className="bg-base-100 min-h-screen pb-20">
-      {/* SECTION 1: The Editorial Hero Banner */}
-      <section className="border-b border-base-300 py-12 px-6 bg-base-200">
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-          <span className="text-xs uppercase tracking-widest text-base-content/60 font-semibold mb-4">
-           
-            Established 2026
-         
-          </span>
-          <h1 className="text-2xl md:text-4xl font-light tracking-widest uppercase mb-3 leading-tight">
-           
-            Elegance In Every Bottle
-        
-          </h1>
-          <p className="max-w-xl text-sm md:text-base text-base-content/75 font-light tracking-wide leading-relaxed mb-4">
-            
-            Experience our highly curated, signature catalog of modern niche fragrances.
-            Hand-crafted botanical blends formulated for the sophisticated mind.
-        
-          </p>
-          <div className="w-12 h-[1px] bg-base-content/40"></div>
-        </div>
-      </section>
+      {/* SECTION 1: The Parallax Editorial Hero Slideshow Banner */}
+      <HeroSlideshow />
 
       
       {/* SECTION 2: The Fragrance Catalog Grid */}

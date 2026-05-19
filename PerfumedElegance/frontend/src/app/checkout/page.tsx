@@ -158,7 +158,10 @@ export default function CheckoutPage() {
               Grand Total
             </span>
             <span className="text-2xl font-bold tracking-wide">
-              ৳{Number(orderReceipt.price || getTotalPrice()).toFixed(2)}
+              ৳{orderReceipt.items.reduce(
+                (total: number, item: any) => total + (item.price * item.quantity), 
+                0
+              ).toFixed(2)}
             </span>
           </div>
 

@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react'; // 👈 Import hooks
+import React, { useState, useEffect } from 'react'; 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; 
 import { useAuthStore } from '@/stores/authStore';
 import { useCartStore } from '@/stores/cartStore';
 
 export function Navbar() {
+  const router = useRouter(); 
   const { user, logout } = useAuthStore();
-    const items = useCartStore((state) => state.items);
+  const items = useCartStore((state) => state.items);
     
 
   // 1. Keep track of whether the component has fully loaded in the browser
@@ -73,7 +75,10 @@ export function Navbar() {
               </Link>
             )}
             <button
-              onClick={logout}
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
               className="btn btn-ghost btn-sm tracking-wide font-medium text-error"
             >
               Logout
