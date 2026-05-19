@@ -7,4 +7,5 @@ export declare class UsersService {
     create(createUserDto: CreateUserDto): Promise<User>;
     findByEmail(email: string): Promise<User | null>;
     findById(id: string): Promise<User | null>;
+    updatePassword(email: string, passwordHash: string): Promise<void>;
 }

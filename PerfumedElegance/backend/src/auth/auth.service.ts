@@ -77,8 +77,42 @@ export class AuthService {
         return {
             access_token: token,
         };
-
-
      }
 
+    // Retrieve security question assigned to the customer email
+    async getSecurityQuestion(email: string): Promise<{ question: string }> {
+        const user = await this.usersService.findByEmail(email);
+        if (!user) {
+            throw new UnauthorizedException('Email address not registered');
+        }
+        return { question: user.securityQuestion };
+    }
+
+    // Verify security answer and reset user password
+    async resetPassword(resetDto: any): Promise<{ success: boolean; message: string }> {
+        const user = await this.usersService.findByEmail(resetDto.email);
+        if (!user) {
+            throw new UnauthorizedException('Email address not registered');
+        }
+
+        // Compare answer case-insensitively for a highly smooth customer UX
+        const cleanAnswer = resetDto.answer.trim().toLowerCase();
+        const dbAnswer = user.securityAnswer.trim().toLowerCase();
+
+        if (cleanAnswer !== dbAnswer) {
+            throw new UnauthorizedException('Incorrect security question answer');
+        }
+
+        // Hash new password using bcrypt
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(resetDto.newPassword, saltRounds);
+
+        // Update database using users service
+        await this.usersService.updatePassword(user.email, hashedPassword);
+
+        return {
+            success: true,
+            message: 'Your password has been successfully reset. Please log in.',
+        };
+    }
 }

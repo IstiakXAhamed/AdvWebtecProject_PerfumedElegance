@@ -24,8 +24,12 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      const cleanData = {
+        ...data,
+        email: data.email.trim().toLowerCase(),
+      };
       // 1. Post credentials to NestJS backend
-      const response = await api.post('/auth/login', data);
+      const response = await api.post('/auth/login', cleanData);
       const { access_token } = response.data;
 
       // 2. Decode the JWT payload to read user details
@@ -95,6 +99,15 @@ export function LoginForm() {
               error={errors.password?.message}
               {...register('password')}
             />
+
+            <div className="text-right -mt-2">
+              <Link
+                href="/auth/forgot-password"
+                className="text-xs link link-hover font-semibold text-primary/80 hover:text-primary"
+              >
+                Forgot Password?
+              </Link>
+            </div>
 
             <button
               type="submit"

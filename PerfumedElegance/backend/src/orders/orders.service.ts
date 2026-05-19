@@ -16,6 +16,7 @@ export class OrdersService {
   async create(createOrderDto: CreateOrderDto, userId?: string): Promise<Order> {
     const newOrder = this.ordersRepository.create({
       ...createOrderDto,
+      customerEmail: createOrderDto.customerEmail.trim().toLowerCase(),
       // If a userId is provided, we format it as an object so TypeORM can link the foreign key.
       // If not, it safely remains null.
       user: userId ? { id: userId } : null,
@@ -34,7 +35,7 @@ export class OrdersService {
   // Find all orders matching a customer's email address
   async findByEmail(email: string): Promise<Order[]> {
     return this.ordersRepository.find({
-      where: { customerEmail: email },
+      where: { customerEmail: email.trim().toLowerCase() },
       order: { createdAt: 'DESC' },
     });
   }

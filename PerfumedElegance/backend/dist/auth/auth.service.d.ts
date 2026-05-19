@@ -13,4 +13,11 @@ export declare class AuthService {
     login(loginDto: LoginDto): Promise<{
         access_token: string;
     }>;
+    getSecurityQuestion(email: string): Promise<{
+        question: string;
+    }>;
+    resetPassword(resetDto: any): Promise<{
+        success: boolean;
+        message: string;
+    }>;
 }

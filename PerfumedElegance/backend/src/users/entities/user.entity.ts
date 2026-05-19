@@ -20,4 +20,10 @@ export class User {
 
     @Column({type : 'enum',enum : Role, default: Role.CUSTOMER})
     role: Role
+
+    @Column({ default: "What was your first pet name?" })
+    securityQuestion: string;
+
+    @Column({ default: "admin" })
+    securityAnswer: string;
 }

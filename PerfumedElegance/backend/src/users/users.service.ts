@@ -13,24 +13,32 @@ export class UsersService {
     //save a new user to database  !
 
     async create(createUserDto: CreateUserDto): Promise<User> {
-        const existingUser= await this.findByEmail(createUserDto.email);
+        const cleanEmail = createUserDto.email.trim().toLowerCase();
+        const existingUser= await this.findByEmail(cleanEmail);
         if(existingUser){
             throw new BadRequestException('User already exists');
         }
 
-
-        const newUser = this.UsersRepository.create(createUserDto);
+        const newUser = this.UsersRepository.create({
+            ...createUserDto,
+            email: cleanEmail,
+        });
         return this.UsersRepository.save(newUser);
     }
     
     //find a user by email!
     async findByEmail(email:string ): Promise<User | null>{
-        return this.UsersRepository.findOneBy({ email });
+        return this.UsersRepository.findOneBy({ email: email.trim().toLowerCase() });
     }
     
     //find by id!
     async findById(id: string): Promise<User | null> {
         return this.UsersRepository.findOneBy({ id });
+    }
+
+    //update password directly using email
+    async updatePassword(email: string, passwordHash: string): Promise<void> {
+        await this.UsersRepository.update({ email }, { password: passwordHash });
     }
 }
 

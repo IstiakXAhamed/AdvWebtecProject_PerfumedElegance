@@ -23,18 +23,25 @@ let UsersService = class UsersService {
         this.UsersRepository = UsersRepository;
     }
     async create(createUserDto) {
-        const existingUser = await this.findByEmail(createUserDto.email);
+        const cleanEmail = createUserDto.email.trim().toLowerCase();
+        const existingUser = await this.findByEmail(cleanEmail);
         if (existingUser) {
             throw new common_1.BadRequestException('User already exists');
         }
-        const newUser = this.UsersRepository.create(createUserDto);
+        const newUser = this.UsersRepository.create({
+            ...createUserDto,
+            email: cleanEmail,
+        });
         return this.UsersRepository.save(newUser);
     }
     async findByEmail(email) {
-        return this.UsersRepository.findOneBy({ email });
+        return this.UsersRepository.findOneBy({ email: email.trim().toLowerCase() });
     }
     async findById(id) {
         return this.UsersRepository.findOneBy({ id });
+    }
+    async updatePassword(email, passwordHash) {
+        await this.UsersRepository.update({ email }, { password: passwordHash });
     }
 };
 exports.UsersService = UsersService;

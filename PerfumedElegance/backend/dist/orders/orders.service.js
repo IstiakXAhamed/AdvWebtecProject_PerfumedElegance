@@ -25,6 +25,7 @@ let OrdersService = class OrdersService {
     async create(createOrderDto, userId) {
         const newOrder = this.ordersRepository.create({
             ...createOrderDto,
+            customerEmail: createOrderDto.customerEmail.trim().toLowerCase(),
             user: userId ? { id: userId } : null,
         });
         return this.ordersRepository.save(newOrder);
@@ -36,7 +37,7 @@ let OrdersService = class OrdersService {
     }
     async findByEmail(email) {
         return this.ordersRepository.find({
-            where: { customerEmail: email },
+            where: { customerEmail: email.trim().toLowerCase() },
             order: { createdAt: 'DESC' },
         });
     }

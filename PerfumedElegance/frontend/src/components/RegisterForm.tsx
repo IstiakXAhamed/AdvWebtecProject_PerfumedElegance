@@ -22,7 +22,11 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await api.post('/auth/register', data);
+      const cleanData = {
+        ...data,
+        email: data.email.trim().toLowerCase(),
+      };
+      await api.post('/auth/register', cleanData);
       router.push('/auth/login');
     } catch (error: any) {
       if (error.response?.data?.message) {
@@ -76,6 +80,34 @@ export function RegisterForm() {
               placeholder="••••••••"
               error={errors.password?.message}
               {...register('password')}
+            />
+
+            {/* Security Question Dropdown Selector */}
+            <div className="flex flex-col">
+              <label className="text-xs uppercase tracking-widest font-semibold mb-2 text-base-content/75">
+                Security Question
+              </label>
+              <select
+                className="select select-bordered rounded-none bg-base-100 border-base-300 text-sm focus:outline-none focus:border-primary h-12"
+                {...register('securityQuestion')}
+              >
+                <option value="What was your first pet's name?">What was your first pet's name?</option>
+                <option value="What city were you born in?">What city were you born in?</option>
+                <option value="What is your favorite perfume ingredient?">What is your favorite perfume ingredient?</option>
+                <option value="What was the name of your first school?">What was the name of your first school?</option>
+              </select>
+              {errors.securityQuestion && (
+                <span className="text-xs text-error mt-1">{errors.securityQuestion.message}</span>
+              )}
+            </div>
+
+            {/* Security Answer Input */}
+            <Input
+              label="Security Answer"
+              type="text"
+              placeholder="e.g. Max"
+              error={errors.securityAnswer?.message}
+              {...register('securityAnswer')}
             />
 
             <button

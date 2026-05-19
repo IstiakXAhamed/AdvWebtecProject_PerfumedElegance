@@ -88,6 +88,31 @@ let AuthService = class AuthService {
             access_token: token,
         };
     }
+    async getSecurityQuestion(email) {
+        const user = await this.usersService.findByEmail(email);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Email address not registered');
+        }
+        return { question: user.securityQuestion };
+    }
+    async resetPassword(resetDto) {
+        const user = await this.usersService.findByEmail(resetDto.email);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Email address not registered');
+        }
+        const cleanAnswer = resetDto.answer.trim().toLowerCase();
+        const dbAnswer = user.securityAnswer.trim().toLowerCase();
+        if (cleanAnswer !== dbAnswer) {
+            throw new common_1.UnauthorizedException('Incorrect security question answer');
+        }
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(resetDto.newPassword, saltRounds);
+        await this.usersService.updatePassword(user.email, hashedPassword);
+        return {
+            success: true,
+            message: 'Your password has been successfully reset. Please log in.',
+        };
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

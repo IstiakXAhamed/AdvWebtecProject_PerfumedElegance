@@ -22,6 +22,8 @@ let User = class User {
     email;
     password;
     role;
+    securityQuestion;
+    securityAnswer;
 };
 exports.User = User;
 __decorate([
@@ -44,6 +46,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: Role, default: Role.CUSTOMER }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: "What was your first pet name?" }),
+    __metadata("design:type", String)
+], User.prototype, "securityQuestion", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: "admin" }),
+    __metadata("design:type", String)
+], User.prototype, "securityAnswer", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)('users')
 ], User);
