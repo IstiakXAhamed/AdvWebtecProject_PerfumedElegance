@@ -77,7 +77,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Price and Action Row */}
         <div className="flex items-center justify-between mt-4">
           <span className="text-xl font-semibold tracking-wide">
-            ${Number(product.price).toFixed(2)}
+            ৳{Number(product.price).toFixed(2)}
           </span>
 
           {/* Simple checkout/add trigger */}
