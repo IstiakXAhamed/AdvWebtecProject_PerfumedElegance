@@ -1,4 +1,5 @@
 'use client';
+import { useCartStore } from '@/stores/cartStore';
 
 import Link from 'next/link';
 
@@ -23,7 +24,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const brandName = product.brand?.name || 'Luxury Fragrance';
-
+  const addItem = useCartStore((state) => state.addItem); 
+  
   return (
     <div className="card card-compact bg-base-100 border border-base-300 hover:shadow-lg transition-all duration-300 rounded-none overflow-hidden group">
       {/* 1. Dynamic Product Image Area */}
@@ -80,9 +82,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             ৳{Number(product.price).toFixed(2)}
           </span>
 
-          {/* Simple checkout/add trigger */}
-          <button
-            onClick={() => alert('Added to cart placeholder!')}
+         <button
+            onClick={() => addItem(product)}
             className="btn btn-neutral btn-sm rounded-none tracking-wider uppercase font-medium"
           >
             Add to Cart
