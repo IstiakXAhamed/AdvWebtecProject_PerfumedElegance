@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: luxury --default, dark;
+  themes: lofi --default, dark;
 }
+
+
 
 body {
   font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
