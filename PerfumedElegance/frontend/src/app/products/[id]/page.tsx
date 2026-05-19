@@ -142,10 +142,10 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Actions & Quantity row */}
-          <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+          <div className="flex flex-col gap-4">
             
             {/* Quantity Counter */}
-            <div className="flex border border-white/20 items-center justify-between px-4 h-12 bg-white/5">
+            <div className="flex border border-white/20 items-center justify-between px-4 h-12 bg-white/5 w-fit">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -163,14 +163,29 @@ export default function ProductDetailPage() {
               </button>
             </div>
 
-            {/* Submit Action */}
-            <button
-              onClick={handleAddToCart}
-              className="flex-1 bg-white hover:bg-neutral-200 text-black h-12 rounded-none uppercase tracking-widest font-semibold text-xs transition-colors duration-300 cursor-pointer"
-            >
-              Add to Collection
-            </button>
+            {/* Button Row */}
+            <div className="flex flex-col sm:flex-row gap-3">
 
+              {/* Add to Collection */}
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 bg-white/10 hover:bg-white/20 border border-white/30 text-white h-12 rounded-none uppercase tracking-widest font-semibold text-xs transition-colors duration-300 cursor-pointer"
+              >
+                Add to Collection
+              </button>
+
+              {/* Buy Now — adds to cart then jumps to checkout instantly */}
+              <button
+                onClick={() => {
+                  handleAddToCart();
+                  router.push('/cart');
+                }}
+                className="flex-1 bg-white hover:bg-neutral-200 text-black h-12 rounded-none uppercase tracking-widest font-semibold text-xs transition-colors duration-300 cursor-pointer"
+              >
+                Buy Now
+              </button>
+
+            </div>
           </div>
 
           {/* Success Banner */}

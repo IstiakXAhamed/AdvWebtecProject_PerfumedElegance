@@ -91,6 +91,14 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'perfumed-elegance-cart', // The unique key name inside localStorage
+
+      // FIX: Strip the imageUrl Base64 string before saving to localStorage.
+      // Base64 images can be several MB each. localStorage has a strict 5MB limit.
+      // We only save lightweight data: id, name, price, brand name, and quantity.
+      // The image is re-fetched from the API when needed (e.g. on the cart page).
+      partialize: (state) => ({
+        items: state.items.map(({ imageUrl, ...rest }) => rest),
+      }),
     }
   )
 );

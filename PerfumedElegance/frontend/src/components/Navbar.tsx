@@ -42,10 +42,7 @@ export function Navbar() {
       {/* 2. Navigation Controls */}
           <div className="flex-none flex items-center gap-6">
               
-        {/* Shop Link */}
-        <Link href="/products" className="btn btn-ghost btn-sm tracking-wide font-normal">
-          Shop
-        </Link>
+       
 
         {/* Dynamic Cart Link (Only reads from store if mounted is true) */}
         <Link
