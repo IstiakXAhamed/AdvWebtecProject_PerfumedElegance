@@ -6,6 +6,7 @@ export declare class OrdersController {
     constructor(ordersService: OrdersService);
     create(createOrderDto: CreateOrderDto): Promise<import("./entities/order.entity").Order>;
     findAll(): Promise<import("./entities/order.entity").Order[]>;
+    findByEmail(email: string): Promise<import("./entities/order.entity").Order[]>;
     findOne(id: string): Promise<import("./entities/order.entity").Order>;
     update(id: string, updateOrderDto: UpdateOrderDto): Promise<import("./entities/order.entity").Order>;
     remove(id: string): Promise<{

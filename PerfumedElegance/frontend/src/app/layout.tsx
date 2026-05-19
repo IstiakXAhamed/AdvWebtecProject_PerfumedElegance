@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 // SEO Best Practice: Professional page metadata
 export const metadata: Metadata = {
@@ -28,6 +29,9 @@ export default function RootLayout({
         
         {/* Render active page route content below the Navbar */}
         <main className="flex-grow">{children}</main>
+
+        {/* Render our custom official minimalist Footer globally at the bottom */}
+        <Footer />
       </body>
     </html>
   );

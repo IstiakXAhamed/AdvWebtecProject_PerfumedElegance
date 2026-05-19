@@ -7,6 +7,7 @@ export declare class OrdersService {
     constructor(ordersRepository: Repository<Order>);
     create(createOrderDto: CreateOrderDto, userId?: string): Promise<Order>;
     findAll(): Promise<Order[]>;
+    findByEmail(email: string): Promise<Order[]>;
     findOne(id: string): Promise<Order>;
     update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order>;
     remove(id: string): Promise<{

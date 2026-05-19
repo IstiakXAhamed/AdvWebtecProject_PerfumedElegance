@@ -31,6 +31,14 @@ export class OrdersService {
     });
   }
 
+  // Find all orders matching a customer's email address
+  async findByEmail(email: string): Promise<Order[]> {
+    return this.ordersRepository.find({
+      where: { customerEmail: email },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   // Get a specific order by ID
   async findOne(id: string): Promise<Order> {
     const order = await this.ordersRepository.findOneBy({ id });

@@ -32,6 +32,9 @@ let OrdersController = class OrdersController {
     async findAll() {
         return this.ordersService.findAll();
     }
+    async findByEmail(email) {
+        return this.ordersService.findByEmail(email);
+    }
     async findOne(id) {
         return this.ordersService.findOne(id);
     }
@@ -58,6 +61,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('customer/:email'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], OrdersController.prototype, "findByEmail", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),

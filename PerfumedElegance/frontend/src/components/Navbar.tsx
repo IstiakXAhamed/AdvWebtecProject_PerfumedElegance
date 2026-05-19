@@ -63,9 +63,21 @@ export function Navbar() {
         {mounted && user ? (
           /* Logged In UI */
           <div className="flex items-center gap-4">
-            <span className="text-sm font-semibold tracking-wide">
+            <Link
+              href="/profile"
+              className="text-sm font-semibold tracking-wide hover:underline cursor-pointer"
+              title="View Profile & Invoices"
+            >
               Hello, {user.email.split('@')[0]}
-            </span>
+            </Link>
+            
+            <Link
+              href="/profile"
+              className="btn btn-ghost btn-sm tracking-wide font-normal"
+            >
+              My Profile
+            </Link>
+
             {user.role === 'admin' && (
               <Link
                 href="/admin"

@@ -27,6 +27,12 @@ export class OrdersController {
     return this.ordersService.findAll();
   }
 
+  // View order history for a specific customer email
+  @Get('customer/:email')
+  async findByEmail(@Param('email') email: string) {
+    return this.ordersService.findByEmail(email);
+  }
+
   // View details of a specific order (Admin only)
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)

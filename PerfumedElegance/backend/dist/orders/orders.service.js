@@ -34,6 +34,12 @@ let OrdersService = class OrdersService {
             order: { createdAt: 'DESC' },
         });
     }
+    async findByEmail(email) {
+        return this.ordersRepository.find({
+            where: { customerEmail: email },
+            order: { createdAt: 'DESC' },
+        });
+    }
     async findOne(id) {
         const order = await this.ordersRepository.findOneBy({ id });
         if (!order) {
